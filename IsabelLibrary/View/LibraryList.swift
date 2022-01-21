@@ -42,7 +42,19 @@ struct LibraryList: View {
                                 Rectangle().foregroundColor(.white).cornerRadius(10)
                                 VStack(alignment: .leading)
                                 {
-                                    Text(books.title).font(.title).bold().padding(.top,5)
+                                    HStack
+                                    {
+                                        Text(books.title).font(.title).bold().padding(.top,5)
+                                        Spacer()
+                                        if(books.isFavourite)
+                                        {
+                                            Image(systemName: "star.fill").foregroundColor(.yellow)
+                                        }
+                                        else
+                                        {
+                                            Image(systemName: "star")
+                                        }
+                                    }
                                     Text(books.author).font(.title3).italic().padding(.top,2)
                                     Image("cover" + String(books.id)).resizable().clipped().padding(.all, 15)
                                 }.frame(width: 325, height: 550, alignment: .center)
@@ -53,7 +65,7 @@ struct LibraryList: View {
                             
                         }.navigationBarHidden(true)
                             .onAppear {
-                                bookListModel.objectWillChange.send()
+                              //  bookListModel.objectWillChange.send()
                             }
                             
                            

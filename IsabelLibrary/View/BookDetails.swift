@@ -14,6 +14,7 @@ struct BookDetails: View {
     //@ObservedObject var bookViewModel:BookViewModel
     @State var bookIndex : Int
     @State var ratingSelection = 1
+    @State var favSelection = 0
     var body: some View {
         
         
@@ -35,18 +36,10 @@ struct BookDetails: View {
                         Text("Mark for later!").font(.title3).bold()
                         
                         Button {
-                            if(bookViewModel.bookList[bookIndex].isFavourite == true)
-                            {
-                                bookViewModel.bookList[bookIndex].isFavourite = false
-                            }
-                            else
-                            {
-                                bookViewModel.bookList[bookIndex].isFavourite = true
-                            }
-                           bookViewModel.objectWillChange.send()
-                            
+                            favSelection = (favSelection == 1 ? 0 : 1)
+                        
                         } label: {
-                            if(bookViewModel.bookList[bookIndex].isFavourite == true)
+                            if(favSelection == 1)
                             {
                                 Image(systemName: "star.fill").foregroundColor(.yellow).font(.system(size: 50))
                             }
@@ -54,6 +47,7 @@ struct BookDetails: View {
                             {
                                 Image(systemName: "star").font(.system(size: 50))
                             }
+                            
                         }.buttonStyle(PlainButtonStyle())
                             .padding(.all,5)
                             .onAppear {
@@ -62,9 +56,7 @@ struct BookDetails: View {
                             .onDisappear {
                                 GetUpdatedValues()
                             }
-                            
                         
-                        //Text("Rate Text and More").font(.title3)
                         VStack
                         {
                             
@@ -96,10 +88,12 @@ struct BookDetails: View {
     func GetIntialValues()
     {
         ratingSelection = bookViewModel.bookList[bookIndex].rating
+        favSelection = (bookViewModel.bookList[bookIndex].isFavourite == true ? 1 : 0)
     }
     func GetUpdatedValues()
     {
         bookViewModel.bookList[bookIndex].rating = ratingSelection
+        bookViewModel.bookList[bookIndex].isFavourite = (favSelection == 1 ? true : false)
         bookViewModel.objectWillChange.send()
     }
 }

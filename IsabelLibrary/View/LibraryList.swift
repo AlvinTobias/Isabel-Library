@@ -16,7 +16,7 @@ struct LibraryList: View {
         
         VStack
         {
-            Text("Isabel Library").font(Font.custom("Menlo Regular", size: 23)).font(.title).bold().foregroundColor(.cyan).shadow(radius: 10)
+//            Text("Isabel Library").font(Font.custom("Menlo Regular", size: 23)).font(.title).bold().foregroundColor(.cyan).shadow(radius: 10)
             
             NavigationView
             {
@@ -63,21 +63,25 @@ struct LibraryList: View {
                             
                             .padding(.all, 20).cornerRadius(10).shadow(color: .black, radius: 10, x: 5, y: 5)
                             
-                        }.navigationBarHidden(true)
+                        }
+                        //.navigationBarHidden(true)
                             .onAppear {
                               //  bookListModel.objectWillChange.send()
                             }
+                           
                             
                            
-                    }
+                    }.navigationBarTitle("Isabel Library")
                 }.frame(width: geo.size.width, height: geo.size.height, alignment: .center)
                     .buttonStyle(PlainButtonStyle())
-                
+                    
+                 
                 
             }
             //.frame(width: geo.size.width, height: geo.size.height, alignment: .center)
             }.environmentObject(bookListModel)
-            
+                .navigationViewStyle(StackNavigationViewStyle())
+                
         }
         
     }

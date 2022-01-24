@@ -29,7 +29,8 @@ struct BookDetails: View {
                     Rectangle().foregroundColor(.white)
                     VStack
                     {
-                        Text("Read Now !").font(.title).bold().padding(.top,20)
+                        Text("Read Now !").font(.title).bold().padding(.top,10)
+                        
                         Image("cover" + String(bookViewModel.bookList[bookIndex].id)).resizable().clipped()
                             .frame(width: geo.size.width-150, height: geo.size.height-300, alignment: .center)
                             .padding(.all,10)
@@ -81,7 +82,8 @@ struct BookDetails: View {
             }
             
             
-        }.navigationBarTitle(bookViewModel.bookList[bookIndex].author)
+        }
+        //.navigationBarTitle(bookViewModel.bookList[bookIndex].author)
         
         
     }

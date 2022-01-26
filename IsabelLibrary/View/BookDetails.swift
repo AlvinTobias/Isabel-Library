@@ -12,57 +12,56 @@ struct BookDetails: View {
     
     @EnvironmentObject var bookViewModel:BookViewModel
     //@ObservedObject var bookViewModel:BookViewModel
-    @State var bookIndex : Int
+    //@State var bookIndex : Int
     @State var ratingSelection = 1
     @State var favSelection = 0
+    @State var title :String
+    
+    @State var myBook : Books
+  
     var body: some View {
-        
-        
         VStack(alignment: .leading)
         {
-            GeometryReader
-            {
-                geo in
-                
+            //Text(bookViewModel.bookList[bookIndex].title).font(.title).bold()
+//            GeometryReader
+//            {
+//                geo in
+                    
                 ZStack
                 {
                     Rectangle().foregroundColor(.white)
                     VStack
                     {
-                        Text("Read Now !").font(.title).bold().padding(.top,10)
-                        
-                        Image("cover" + String(bookViewModel.bookList[bookIndex].id)).resizable().clipped()
-                            .frame(width: geo.size.width-150, height: geo.size.height-300, alignment: .center)
-                            .padding(.all,10)
+                        Text("Read Now !").font(.title).bold()
+                        NavigationLink (destination : BookView())
+                        {
+                             Image("cover" + String(myBook.id)).resizable().resizable().scaledToFit()
+                              //  .frame(width: geo.size.width-150, height: geo.size.height-350, alignment: .top)
+                        }
                         Text("Mark for later!").font(.title3).bold()
-                        
                         Button {
                             favSelection = (favSelection == 1 ? 0 : 1)
                         
                         } label: {
                             if(favSelection == 1)
                             {
-                                Image(systemName: "star.fill").foregroundColor(.yellow).font(.system(size: 50))
+                                Image(systemName: "star.fill").foregroundColor(.yellow).font(.system(size: 25))
                             }
                             else
                             {
-                                Image(systemName: "star").font(.system(size: 50))
+                                Image(systemName: "star").font(.system(size: 25))
                             }
                             
                         }.buttonStyle(PlainButtonStyle())
-                            .padding(.all,5)
+                            .padding(.all,1)
                             .onAppear {
                                 GetIntialValues()
                             }
                             .onDisappear {
                                 GetUpdatedValues()
                             }
-                        
-                        VStack
-                        {
-                            
-                            Text("Rate Me !")
-                        Picker("RatePicker", selection: $ratingSelection) {
+                             Text("Rate Me !")
+                            Picker("RatePicker", selection: $ratingSelection) {
                                 Text("1").tag(1)
                                 Text("2").tag(2)
                                 Text("3").tag(3)
@@ -71,38 +70,33 @@ struct BookDetails: View {
                         }.pickerStyle(.segmented)
                             .padding([.leading,.trailing],20)
                             
-                           
-                        }
-                        Spacer()
+                           Spacer()
+                    
                     }
                     Spacer()
                 }
-                
-                
-            }
-            
-            
+                //.frame(width: geo.size.width, height: geo.size.height, alignment: .top)
+                    Spacer()
+                .navigationTitle(title)
+                Spacer()
         }
-        //.navigationBarTitle(bookViewModel.bookList[bookIndex].author)
-        
-        
-    }
+        .navigationTitle(myBook.title)
+      }
     func GetIntialValues()
     {
-        ratingSelection = bookViewModel.bookList[bookIndex].rating
-        favSelection = (bookViewModel.bookList[bookIndex].isFavourite == true ? 1 : 0)
+        ratingSelection = myBook.rating
+        favSelection = (myBook.isFavourite == true ? 1 : 0)
     }
     func GetUpdatedValues()
     {
-        bookViewModel.bookList[bookIndex].rating = ratingSelection
-        bookViewModel.bookList[bookIndex].isFavourite = (favSelection == 1 ? true : false)
+        myBook.rating = ratingSelection
+        myBook.isFavourite = (favSelection == 1 ? true : false)
         bookViewModel.objectWillChange.send()
     }
 }
 
 struct BookDetails_Previews: PreviewProvider {
     static var previews: some View {
-        
-        BookDetails(bookIndex: 1).environmentObject(BookViewModel())
+        BookDetails(title: "Hello", myBook: BookViewModel().bookList[0]).environmentObject(BookViewModel())
     }
 }

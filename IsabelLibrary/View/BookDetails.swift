@@ -33,7 +33,7 @@ struct BookDetails: View {
                     VStack
                     {
                         Text("Read Now !").font(.title).bold()
-                        NavigationLink (destination : BookView())
+                        NavigationLink (destination : BookView(myBook: myBook, currentpage: myBook.currentPage))
                         {
                              Image("cover" + String(myBook.id)).resizable().resizable().scaledToFit()
                               //  .frame(width: geo.size.width-150, height: geo.size.height-350, alignment: .top)
@@ -78,9 +78,10 @@ struct BookDetails: View {
                 //.frame(width: geo.size.width, height: geo.size.height, alignment: .top)
                     Spacer()
                 .navigationTitle(title)
+               // .navigationBarTitleDisplayMode(.inline)
                 Spacer()
         }
-        .navigationTitle(myBook.title)
+       // .navigationTitle(myBook.title)
       }
     func GetIntialValues()
     {
